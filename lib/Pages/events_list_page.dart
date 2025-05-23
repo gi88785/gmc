@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart'; // 📦 Flutter UI package
 import '../Models/event.dart'; // 📦 Import our Event model to use it here
+import 'add_event_page.dart';
 
 ///
 /// 📃 This page displays a list of events
@@ -26,6 +27,12 @@ class _EventsListPageState extends State<EventsListPage> {
     ),
     Event(personName: 'Jean', eventTitle: 'Baptism', month: 8, day: 15),
   ];
+
+  void _addNewEvent(Event newEvent) {
+    setState(() {
+      events.add(newEvent); // 📦 Add new event to the list
+    });
+  }
 
   // 🎨 Function that selects an icon based on the event type
   IconData _getEventIcon(String eventTitle) {
@@ -101,7 +108,20 @@ class _EventsListPageState extends State<EventsListPage> {
           },
         ),
       ),
-    );
+      // ✅ Floating action button for adding new events
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          // 📌 Navigate to the add event page when button is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddEventPage(onEventAdded: _addNewEvent),
+            ),
+          );
+        },
+      ),
+    ); // 👈 Close the Scaffold properly here
   }
 }
 
@@ -120,4 +140,5 @@ class _EventsListPageState extends State<EventsListPage> {
 | `trailing`                      | Small icon (arrow) on the right side                                                |
 | `onTap`                         | Code to run when someone taps on the list item (shows a temporary message)          |
 | `_getEventIcon()`               | Function that picks an icon according to the event type                             |
+| `floatingActionButton`          | A button floating at the bottom-right for adding new events                         |
 */
